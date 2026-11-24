@@ -27,6 +27,18 @@ npm run build    # revisa tipos y compila a dist/
 
 Controles: arrastrar = rotar, clic derecho o dos dedos = mover, rueda = zoom, "Vista general" = cámara inicial, clic en vacío = deseleccionar, `Esc` = cerrar el recorrido.
 
+## Despliegue en Coolify (VPS de Hostinger)
+
+Es una página estática: no necesita base de datos ni variables de entorno. El `Dockerfile` compila con Node y la sirve con nginx por el puerto 80.
+
+1. Crea un registro **A** de un subdominio (por ejemplo `3d.tudominio.com`) hacia la IP del VPS.
+2. En Coolify: **New Resource → Repository** (si es privado, conecta tu cuenta de GitHub), repo `SIGS-3D`, rama `main`.
+3. **Build Pack: Dockerfile**. Puerto expuesto: **80**.
+4. En **Domains** escribe `https://3d.tudominio.com`. Coolify emite el certificado HTTPS.
+5. **Deploy**. Para actualizar: sube cambios a `main` y pulsa *Redeploy* (o activa el webhook).
+
+Probar la imagen en local: `docker build -t sisg-3d . && docker run --rm -p 8080:80 sisg-3d` y abrir http://localhost:8080.
+
 ## De dónde salen los datos
 
 Son copias escritas a mano en `src/data/`. Si el proyecto cambia, hay que actualizarlas:
